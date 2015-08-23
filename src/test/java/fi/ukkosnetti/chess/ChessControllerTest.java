@@ -1,7 +1,10 @@
 package fi.ukkosnetti.chess;
 
+import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.when;
 import static org.hamcrest.CoreMatchers.is;
+
+import javax.ws.rs.core.MediaType;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +17,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.jayway.restassured.RestAssured;
 
-import fi.ukkosnetti.chess.ChessApplication;
+import fi.ukkosnetti.chess.dto.Board;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ChessApplication.class)
@@ -36,9 +39,9 @@ public class ChessControllerTest {
 		when().get("/").then().body(is("Alive!"));
     }
 
-	/**
-	 * @Test public void testCalc() throws Exception { given().param("left", 100)
-	 *       .param("right", 200) .get("/calc") .then() .body("left", is(100))
-	 *       .body("right", is(200)) .body("answer", is(300)); }
-	 **/
+	@Test
+	public void returnsMoveWherePlayerIsOpposite() throws Exception {
+		given().contentType(MediaType.APPLICATION_JSON).body(new Board(null, true)).post("/aimove").then().body("turnOfWhite", is(false));
+		given().contentType(MediaType.APPLICATION_JSON).body(new Board(null, false)).post("/aimove").then().body("turnOfWhite", is(true));
+	}
 }
