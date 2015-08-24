@@ -2,6 +2,8 @@ package fi.ukkosnetti.chess.dto;
 
 import java.util.Arrays;
 
+import fi.ukkosnetti.chess.logic.Position;
+
 public class Board {
 
 	public final Integer[][] board;
@@ -21,6 +23,10 @@ public class Board {
 	@Override
 	public String toString() {
 		return "Board [board=" + Arrays.toString(board) + ", turnOfWhite=" + turnOfWhite + "]";
+	}
+	
+	public int getSlot(Position pos) {
+		return board[pos.x][pos.y];
 	}
 
 }

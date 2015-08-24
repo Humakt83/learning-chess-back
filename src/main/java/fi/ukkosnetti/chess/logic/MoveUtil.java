@@ -1,16 +1,43 @@
 package fi.ukkosnetti.chess.logic;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import fi.ukkosnetti.chess.dto.Board;
+import fi.ukkosnetti.chess.logic.object.Piece;
 
 public final class MoveUtil {
 
 	private final static int MIN_COORD = 0, MAX_COORD = 7;
+	
+	public static List<Move> getDiagonalMoves(Board board, Piece piece) {
+		List<Move> moves = new ArrayList<>();
+		moves.addAll(getMovesUntilBlocked(board, 1, 1, piece));
+		moves.addAll(getMovesUntilBlocked(board, -1, -1, piece));
+		moves.addAll(getMovesUntilBlocked(board, 1, -1, piece));
+		moves.addAll(getMovesUntilBlocked(board, -1, 1, piece));
+		return moves;
+	}
+	
+	public static List<Move> getHorizontalAndVerticalMoves(Board board, Piece piece) {
+		List<Move> moves = new ArrayList<>();
+		moves.addAll(getMovesUntilBlocked(board, 0, 1, piece));
+		moves.addAll(getMovesUntilBlocked(board, 0, -1, piece));
+		moves.addAll(getMovesUntilBlocked(board, 1, 0, piece));
+		moves.addAll(getMovesUntilBlocked(board, -1, 0, piece));
+		return moves;
+	}
+	
+	public static List<Board> filterAndTransformMoves(List<Move> moves) {
+		return moves.stream().filter(MoveUtil::isMoveOnBoard).filter(MoveUtil::filterMovesThatCollideWithOwnPiece).map(MoveUtil::transformMove).collect(Collectors.toList());
+	}
 
 	private static boolean isMoveOnBoard(Move move) {
-		Position pos = move.position;
+		return isPositionInsideBoard(move.position);
+	}
+
+	private static boolean isPositionInsideBoard(Position pos) {
 		return pos.x >= MIN_COORD && pos.x <= MAX_COORD && pos.y >= MIN_COORD && pos.y <= MAX_COORD;
 	}
 	
@@ -28,8 +55,18 @@ public final class MoveUtil {
 		return new Board(b, !move.originalBoard.turnOfWhite);
 	}
 
-	public static List<Board> filterAndTransformMoves(List<Move> moves) {
-		return moves.stream().filter(MoveUtil::isMoveOnBoard).filter(MoveUtil::filterMovesThatCollideWithOwnPiece).map(MoveUtil::transformMove).collect(Collectors.toList());
+	private static List<Move> getMovesUntilBlocked(Board board, int xModifier, int yModifier, Piece piece) {
+		List<Move> moves = new ArrayList<>();
+		boolean blocked = false;
+		Position newPosition = piece.position.newPosition(xModifier, yModifier);
+		while (MoveUtil.isPositionInsideBoard(newPosition) && !blocked) {
+			moves.add(new Move(piece.position, newPosition, piece, board));
+			blocked = blocked || board.getSlot(newPosition) != 0;
+			newPosition = newPosition.newPosition(xModifier, yModifier);
+		}
+		return moves;
 	}
 	
+
+
 }
