@@ -2,6 +2,7 @@ package fi.ukkosnetti.chess.logic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import fi.ukkosnetti.chess.dto.Board;
@@ -30,7 +31,7 @@ public final class MoveUtil {
 	}
 	
 	public static List<Board> filterAndTransformMoves(List<Move> moves) {
-		return moves.stream().filter(MoveUtil::isMoveOnBoard).filter(MoveUtil::filterMovesThatCollideWithOwnPiece).map(MoveUtil::transformMove).collect(Collectors.toList());
+		return moves.stream().filter(Objects::nonNull).filter(MoveUtil::isMoveOnBoard).filter(MoveUtil::filterMovesThatCollideWithOwnPiece).map(MoveUtil::transformMove).collect(Collectors.toList());
 	}
 
 	private static boolean isMoveOnBoard(Move move) {
@@ -49,10 +50,11 @@ public final class MoveUtil {
 	}
 
 	private static Board transformMove(Move move) {
+		if (move.consumer != null) move.consumer.accept(move.originalBoard);
 		Integer[][] b = move.originalBoard.board;
 		b[move.position.x][move.position.y] = move.piece.getPieceValue();
 		b[move.original.x][move.original.y] = 0;
-		return new Board(b, !move.originalBoard.turnOfWhite);
+		return new Board(b, !move.originalBoard.turnOfWhite, move);
 	}
 
 	private static List<Move> getMovesUntilBlocked(Board board, int xModifier, int yModifier, Piece piece) {

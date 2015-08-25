@@ -3,10 +3,12 @@ package fi.ukkosnetti.chess.logic.object;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import fi.ukkosnetti.chess.dto.Board;
 import fi.ukkosnetti.chess.logic.Move;
+import fi.ukkosnetti.chess.logic.MoveBuilder;
 import fi.ukkosnetti.chess.logic.MoveUtil;
 import fi.ukkosnetti.chess.logic.Position;
 
@@ -20,6 +22,7 @@ public class Pawn extends Piece {
 	public List<Board> getMoves(final Board board) {
 		List<Move> moves = getMovesForward(board);
 		moves.addAll(getDiagonalAttackMoves(board));
+		moves.add(getEnPassantMove(board));
 		return MoveUtil.filterAndTransformMoves(moves);
 	}
 	
@@ -37,7 +40,7 @@ public class Pawn extends Piece {
 				moves.add(new Move(position, positionForward, this, board));
 				Position positionForwardTwice = positionForward.newPosition(0, getDirection());
 				if (((position.y == 6 && whitePiece) || (position.y == 1 && !whitePiece)) &&  board.getSlot(positionForwardTwice) == 0) {
-					moves.add(new Move(position, positionForwardTwice, this, board));
+					moves.add(new MoveBuilder(position, positionForwardTwice, this, board).setPawnDoubleForward(true).build());
 				}
 			}
 		}
@@ -51,9 +54,7 @@ public class Pawn extends Piece {
 				.filter(pos -> {
 					int slot = board.getSlot(pos);
 					return (slot < 0 && whitePiece) || (slot > 0 && !whitePiece);
-				}).map(pos -> {
-					return new Move(position, pos, this, board);
-				}).collect(Collectors.toList());
+				}).map(pos -> new Move(position, pos, this, board)).collect(Collectors.toList());
 	}
 	
 	private List<Move> getLevelUpMoves(final Board board, Position positionForward) {
@@ -63,5 +64,18 @@ public class Pawn extends Piece {
 				new Move(position, positionForward, new Rook(whitePiece, positionForward), board),
 				new Move(position, positionForward, new Queen(whitePiece, positionForward), board));
 	}
+	
+	private Move getEnPassantMove(final Board board) {
+		return Arrays.asList(position.newPosition(-1, getDirection()), position.newPosition(1, getDirection()))
+				.stream()
+				.filter(MoveUtil::isPositionInsideBoard)
+				.filter(p -> board.lastMove != null && board.lastMove.pawnDoubleForward && board.lastMove.position.y == position.y)
+				.filter(pos -> board.getSlot(pos) == 0 && board.lastMove.position.x == pos.x)
+				.map(pos -> new MoveBuilder(position, pos, this, board).setConsumer(getEnPassantConsumer()).build())
+				.findAny().orElse(null);
+	}
 
+	private Consumer<Board> getEnPassantConsumer() {
+		return board -> board.board[board.lastMove.position.x][board.lastMove.position.y] = 0;
+	}
 }

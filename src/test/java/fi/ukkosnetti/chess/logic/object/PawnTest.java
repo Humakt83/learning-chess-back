@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import fi.ukkosnetti.chess.dto.Board;
+import fi.ukkosnetti.chess.logic.Move;
+import fi.ukkosnetti.chess.logic.MoveBuilder;
 import fi.ukkosnetti.chess.logic.Position;
 import fi.ukkosnetti.chess.test.util.BoardUtil;
 
@@ -57,6 +59,16 @@ public class PawnTest {
 	public void blackPawnCanDiagonallyAttack() {
 		Piece pawn = new Pawn(false, new Position(3, 5));
 		assertEquals(1, pawn.getMoves(new Board(BoardUtil.createBoardWithPieces(pawn, new Pawn(false, new Position(2, 6)), new Pawn(true, new Position(4, 6)), new Pawn(true, new Position(3, 6))), true)).size());
+	}
+	
+	@Test
+	public void enPassant() {
+		Piece pawn = new Pawn(true, new Position(1, 3));
+		Piece pawnDoubleForward = new Pawn(false, new Position(0, 3));
+		Board board = new Board(BoardUtil.createBoardWithPieces(pawn, pawnDoubleForward), false);
+		Move previousMove = new MoveBuilder(new Position(0, 1), new Position(0, 3), pawnDoubleForward, board).setPawnDoubleForward(true).build();
+		board = new Board(BoardUtil.createBoardWithPieces(pawn, pawnDoubleForward), false, previousMove);
+		assertEquals(2, pawn.getMoves(board).size());
 	}
 
 }
