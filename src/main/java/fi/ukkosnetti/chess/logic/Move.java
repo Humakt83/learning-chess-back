@@ -12,12 +12,19 @@ public class Move {
 	public final Piece piece;
 
 	public final Board originalBoard;
+	
+	public final boolean pawnDoubleForward;
 
 	public Move(Position original, Position position, Piece piece, Board originalBoard) {
+		this(original, position, piece, originalBoard, false);
+	}
+	
+	public Move(Position original, Position position, Piece piece, Board originalBoard, boolean pawnDoubleForward) {
 		this.original = original;
 		this.position = position;
 		this.piece = piece;
 		this.originalBoard = originalBoard;
+		this.pawnDoubleForward = pawnDoubleForward;
 	}
 
 }

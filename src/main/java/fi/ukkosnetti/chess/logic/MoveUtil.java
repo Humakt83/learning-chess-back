@@ -37,7 +37,7 @@ public final class MoveUtil {
 		return isPositionInsideBoard(move.position);
 	}
 
-	private static boolean isPositionInsideBoard(Position pos) {
+	public static boolean isPositionInsideBoard(Position pos) {
 		return pos.x >= MIN_COORD && pos.x <= MAX_COORD && pos.y >= MIN_COORD && pos.y <= MAX_COORD;
 	}
 	
