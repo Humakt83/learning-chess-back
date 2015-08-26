@@ -3,6 +3,7 @@ package fi.ukkosnetti.chess.logic;
 import java.util.function.Consumer;
 
 import fi.ukkosnetti.chess.dto.Board;
+import fi.ukkosnetti.chess.dto.CastlingState;
 import fi.ukkosnetti.chess.logic.object.Piece;
 
 public class Move {
@@ -18,18 +19,21 @@ public class Move {
 	public final boolean pawnDoubleForward;
 	
 	public final Consumer<Board> consumer;
+	
+	public final CastlingState newCastlingState;
 
 	public Move(Position original, Position position, Piece piece, Board originalBoard) {
-		this(original, position, piece, originalBoard, false, null);
+		this(original, position, piece, originalBoard, false, null, originalBoard.castlingState);
 	}
 	
-	Move(Position original, Position position, Piece piece, Board originalBoard, boolean pawnDoubleForward, Consumer<Board> consumer) {
+	Move(Position original, Position position, Piece piece, Board originalBoard, boolean pawnDoubleForward, Consumer<Board> consumer, CastlingState newCastlingState) {
 		this.original = original;
 		this.position = position;
 		this.piece = piece;
 		this.originalBoard = originalBoard;
 		this.pawnDoubleForward = pawnDoubleForward;
 		this.consumer = consumer;
+		this.newCastlingState = newCastlingState;
 	}
 	
 }

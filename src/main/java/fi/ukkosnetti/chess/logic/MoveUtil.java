@@ -54,7 +54,7 @@ public final class MoveUtil {
 		Integer[][] b = move.originalBoard.board;
 		b[move.position.x][move.position.y] = move.piece.getPieceValue();
 		b[move.original.x][move.original.y] = 0;
-		return new Board(b, !move.originalBoard.turnOfWhite, move);
+		return new Board(b, !move.originalBoard.turnOfWhite, move, move.newCastlingState);
 	}
 
 	private static List<Move> getMovesUntilBlocked(Board board, int xModifier, int yModifier, Piece piece) {

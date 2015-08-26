@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import fi.ukkosnetti.chess.dto.Board;
+import fi.ukkosnetti.chess.dto.CastlingState;
 import fi.ukkosnetti.chess.logic.Move;
 import fi.ukkosnetti.chess.logic.MoveBuilder;
 import fi.ukkosnetti.chess.logic.Position;
@@ -67,7 +68,7 @@ public class PawnTest {
 		Piece pawnDoubleForward = new Pawn(false, new Position(0, 3));
 		Board board = new Board(BoardUtil.createBoardWithPieces(pawn, pawnDoubleForward), false);
 		Move previousMove = new MoveBuilder(new Position(0, 1), new Position(0, 3), pawnDoubleForward, board).setPawnDoubleForward(true).build();
-		board = new Board(BoardUtil.createBoardWithPieces(pawn, pawnDoubleForward), false, previousMove);
+		board = new Board(BoardUtil.createBoardWithPieces(pawn, pawnDoubleForward), false, previousMove, new CastlingState());
 		assertEquals(2, pawn.getMoves(board).size());
 	}
 

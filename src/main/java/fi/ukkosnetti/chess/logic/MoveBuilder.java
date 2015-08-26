@@ -3,6 +3,8 @@ package fi.ukkosnetti.chess.logic;
 import java.util.function.Consumer;
 
 import fi.ukkosnetti.chess.dto.Board;
+import fi.ukkosnetti.chess.dto.CastlingState;
+import fi.ukkosnetti.chess.dto.CastlingState.CastlingBlocker;
 import fi.ukkosnetti.chess.logic.object.Piece;
 
 public class MoveBuilder {
@@ -18,12 +20,15 @@ public class MoveBuilder {
 	private final Board originalBoard;
 	
 	private Consumer<Board> consumer = null;
+	
+	private final CastlingState castlingState;
 
 	public MoveBuilder(Position originalPosition, Position position, Piece piece, Board originalBoard) {
 		this.originalPosition = originalPosition;
 		this.position = position;
 		this.piece = piece;
 		this.originalBoard = originalBoard;
+		this.castlingState = originalBoard.castlingState.copy();
 	}
 	
 	public MoveBuilder setPawnDoubleForward(boolean pawnDoubleForward) {
@@ -36,7 +41,12 @@ public class MoveBuilder {
 		return this;
 	}
 	
+	public MoveBuilder addCastlingBlocker(CastlingBlocker blocker) {
+		if (blocker != null && !this.castlingState.blockers.contains(blocker))	this.castlingState.blockers.add(blocker);
+		return this;
+	}
+	
 	public Move build() {
-		return new Move(originalPosition, position, piece, originalBoard, pawnDoubleForward, consumer);
+		return new Move(originalPosition, position, piece, originalBoard, pawnDoubleForward, consumer, castlingState);
 	}
 }
