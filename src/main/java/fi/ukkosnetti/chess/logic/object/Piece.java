@@ -1,6 +1,6 @@
 package fi.ukkosnetti.chess.logic.object;
 
-import fi.ukkosnetti.chess.logic.Position;
+import fi.ukkosnetti.chess.dto.Position;
 
 public abstract class Piece implements Movable {
 

@@ -3,8 +3,8 @@ package fi.ukkosnetti.chess.logic.object;
 import java.util.List;
 
 import fi.ukkosnetti.chess.dto.Board;
+import fi.ukkosnetti.chess.dto.Position;
 import fi.ukkosnetti.chess.logic.MoveUtil;
-import fi.ukkosnetti.chess.logic.Position;
 
 public class Bishop extends Piece {
 

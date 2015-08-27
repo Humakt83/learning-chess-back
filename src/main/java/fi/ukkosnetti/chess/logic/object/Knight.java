@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import fi.ukkosnetti.chess.dto.Board;
-import fi.ukkosnetti.chess.logic.Move;
+import fi.ukkosnetti.chess.dto.Move;
+import fi.ukkosnetti.chess.dto.Position;
 import fi.ukkosnetti.chess.logic.MoveUtil;
-import fi.ukkosnetti.chess.logic.Position;
 
 public class Knight extends Piece {
 

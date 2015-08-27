@@ -1,9 +1,9 @@
-package fi.ukkosnetti.chess.logic;
+package fi.ukkosnetti.chess.dto;
 
 import java.util.function.Consumer;
 
-import fi.ukkosnetti.chess.dto.Board;
-import fi.ukkosnetti.chess.dto.CastlingState;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import fi.ukkosnetti.chess.logic.object.Piece;
 
 public class Move {
@@ -12,12 +12,15 @@ public class Move {
 
 	public final Position position;
 
+	@JsonIgnore
 	public final Piece piece;
 
+	@JsonIgnore
 	public final Board originalBoard;
 	
 	public final boolean pawnDoubleForward;
 	
+	@JsonIgnore
 	public final Consumer<Board> consumer;
 	
 	public final CastlingState newCastlingState;
@@ -34,6 +37,11 @@ public class Move {
 		this.pawnDoubleForward = pawnDoubleForward;
 		this.consumer = consumer;
 		this.newCastlingState = newCastlingState;
+	}
+	
+	@SuppressWarnings("unused")
+	private Move() {
+		this(null, null, null, null, false, null, null);
 	}
 	
 }

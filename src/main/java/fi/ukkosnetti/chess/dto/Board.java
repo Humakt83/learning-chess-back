@@ -2,9 +2,9 @@ package fi.ukkosnetti.chess.dto;
 
 import java.util.Arrays;
 
-import fi.ukkosnetti.chess.logic.Move;
-import fi.ukkosnetti.chess.logic.Position;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Board {
 
 	public final Integer[][] board;
@@ -32,7 +32,7 @@ public class Board {
 	}
 	
 	public int getSlot(Position pos) {
-		return board[pos.x][pos.y];
+		return board[pos.y][pos.x];
 	}
 
 	@Override

@@ -2,7 +2,10 @@ package fi.ukkosnetti.chess;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.when;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import javax.ws.rs.core.MediaType;
 
@@ -18,6 +21,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import com.jayway.restassured.RestAssured;
 
 import fi.ukkosnetti.chess.dto.Board;
+import fi.ukkosnetti.chess.test.util.BoardUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ChessApplication.class)
@@ -41,7 +45,26 @@ public class ChessControllerTest {
 
 	@Test
 	public void returnsMoveWherePlayerIsOpposite() throws Exception {
-		given().contentType(MediaType.APPLICATION_JSON).body(new Board(null, true)).post("/aimove").then().body("turnOfWhite", is(false));
-		given().contentType(MediaType.APPLICATION_JSON).body(new Board(null, false)).post("/aimove").then().body("turnOfWhite", is(true));
+		given().contentType(MediaType.APPLICATION_JSON).body(new Board(BoardUtil.createStartingBoard(), true)).post("/aimove").then().body("turnOfWhite", is(false));
+		given().contentType(MediaType.APPLICATION_JSON).body(new Board(BoardUtil.createStartingBoard(), false)).post("/aimove").then().body("turnOfWhite", is(true));
+	}
+	
+	@Test
+	public void returnsRandomMove() throws Exception {
+		Integer[][] board = BoardUtil.createStartingBoard();
+		Board resultBoard = given().contentType(MediaType.APPLICATION_JSON).body(new Board(board, true)).post("/aimove").then().extract().as(Board.class);
+		assertThat(resultBoard.board, not(equalTo(board)));
+	}
+	
+	@Test
+	public void playsWithItself() throws Exception {
+		Integer[][] board = BoardUtil.createStartingBoard();
+		Board resultBoard = given().contentType(MediaType.APPLICATION_JSON).body(new Board(board, true)).post("/aimove").then().extract().as(Board.class);
+		for (int i = 0; i < 10; i++) {
+			System.out.println("------------------------------------------------------------------------------------");
+			Board previousResult = resultBoard;
+			resultBoard = given().contentType(MediaType.APPLICATION_JSON).body(resultBoard).post("/aimove").then().extract().as(Board.class);
+			assertThat(resultBoard.board, not(equalTo(previousResult.board)));
+		}
 	}
 }

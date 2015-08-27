@@ -8,10 +8,10 @@ import java.util.stream.Collectors;
 
 import fi.ukkosnetti.chess.dto.Board;
 import fi.ukkosnetti.chess.dto.CastlingState.CastlingBlocker;
-import fi.ukkosnetti.chess.logic.Move;
-import fi.ukkosnetti.chess.logic.MoveBuilder;
+import fi.ukkosnetti.chess.dto.Move;
+import fi.ukkosnetti.chess.dto.MoveBuilder;
+import fi.ukkosnetti.chess.dto.Position;
 import fi.ukkosnetti.chess.logic.MoveUtil;
-import fi.ukkosnetti.chess.logic.Position;
 
 public class King extends Piece {
 
@@ -46,15 +46,15 @@ public class King extends Piece {
 
 	private Consumer<Board> getLeftRookMover() {
 		return board -> {
-			board.board[position.x - 1][position.y] = whitePiece ? 4 : -4;
-			board.board[position.x - 4][position.y] = 0;
+			board.board[position.y][position.x - 1] = whitePiece ? 4 : -4;
+			board.board[position.y][position.x - 4] = 0;
 		};
 	}
 	
 	private Consumer<Board> getRightRookMover() {
 		return board -> {
-			board.board[position.x + 1][position.y] = whitePiece ? 4 : -4;
-			board.board[position.x + 3][position.y] = 0;
+			board.board[position.y][position.x + 1] = whitePiece ? 4 : -4;
+			board.board[position.y][position.x + 3] = 0;
 		};
 	}
 

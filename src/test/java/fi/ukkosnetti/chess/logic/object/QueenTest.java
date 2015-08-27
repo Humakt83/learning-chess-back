@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import fi.ukkosnetti.chess.dto.Board;
-import fi.ukkosnetti.chess.logic.Position;
+import fi.ukkosnetti.chess.dto.Position;
 import fi.ukkosnetti.chess.test.util.BoardUtil;
 
 

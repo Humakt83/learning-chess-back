@@ -7,15 +7,15 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import fi.ukkosnetti.chess.dto.Board;
-import fi.ukkosnetti.chess.logic.Move;
-import fi.ukkosnetti.chess.logic.MoveBuilder;
+import fi.ukkosnetti.chess.dto.Move;
+import fi.ukkosnetti.chess.dto.MoveBuilder;
+import fi.ukkosnetti.chess.dto.Position;
 import fi.ukkosnetti.chess.logic.MoveUtil;
-import fi.ukkosnetti.chess.logic.Position;
 
 public class Pawn extends Piece {
 
 	public Pawn(boolean whitePiece, Position position) {
-		super(whitePiece, position, 2);
+		super(whitePiece, position, 1);
 	}
 
 	@Override
@@ -76,6 +76,6 @@ public class Pawn extends Piece {
 	}
 
 	private Consumer<Board> getEnPassantConsumer() {
-		return board -> board.board[board.lastMove.position.x][board.lastMove.position.y] = 0;
+		return board -> board.board[board.lastMove.position.y][board.lastMove.position.x] = 0;
 	}
 }

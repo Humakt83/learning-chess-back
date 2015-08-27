@@ -1,9 +1,7 @@
-package fi.ukkosnetti.chess.logic;
+package fi.ukkosnetti.chess.dto;
 
 import java.util.function.Consumer;
 
-import fi.ukkosnetti.chess.dto.Board;
-import fi.ukkosnetti.chess.dto.CastlingState;
 import fi.ukkosnetti.chess.dto.CastlingState.CastlingBlocker;
 import fi.ukkosnetti.chess.logic.object.Piece;
 

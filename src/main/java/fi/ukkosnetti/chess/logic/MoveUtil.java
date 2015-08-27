@@ -6,6 +6,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import fi.ukkosnetti.chess.dto.Board;
+import fi.ukkosnetti.chess.dto.Move;
+import fi.ukkosnetti.chess.dto.Position;
 import fi.ukkosnetti.chess.logic.object.Piece;
 
 public final class MoveUtil {
@@ -43,18 +45,28 @@ public final class MoveUtil {
 	}
 	
 	private static boolean filterMovesThatCollideWithOwnPiece(Move move) {
-		int sign = move.piece.getSign();
-		Integer[][] b = move.originalBoard.board;
-		int slot = b[move.position.x][move.position.y];
-		return (slot <= 0 && sign > 0) || (slot >= 0 && sign < 0);
+		boolean whitePiece = move.piece.whitePiece;
+		int slot = move.originalBoard.getSlot(move.position);
+		return (slot <= 0 && whitePiece) || (slot >= 0 && !whitePiece);
 	}
 
 	private static Board transformMove(Move move) {
-		if (move.consumer != null) move.consumer.accept(move.originalBoard);
-		Integer[][] b = move.originalBoard.board;
-		b[move.position.x][move.position.y] = move.piece.getPieceValue();
-		b[move.original.x][move.original.y] = 0;
-		return new Board(b, !move.originalBoard.turnOfWhite, move, move.newCastlingState);
+		Integer[][] b = copyBoard(move.originalBoard.board);
+		b[move.position.y][move.position.x] = move.piece.getPieceValue();
+		b[move.original.y][move.original.x] = 0;
+		Board board = new Board(b, !move.originalBoard.turnOfWhite, move, move.newCastlingState);
+		if (move.consumer != null) move.consumer.accept(board);
+		return board;
+	}
+
+	private static Integer[][] copyBoard(Integer[][] board) {
+		Integer[][] copy = new Integer[MAX_COORD + 1][MAX_COORD + 1];
+		for (int y = 0; y < board.length; y++) {
+			for (int x = 0; x < board[y].length; x++) {
+				copy[y][x] = board[y][x];
+			}
+		}
+		return copy;
 	}
 
 	private static List<Move> getMovesUntilBlocked(Board board, int xModifier, int yModifier, Piece piece) {
