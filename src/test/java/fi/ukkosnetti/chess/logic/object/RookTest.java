@@ -27,7 +27,7 @@ public class RookTest {
 	@Test
 	public void hasOnlyTwoMovesWhenBlockedByEnemiesInCorner() {
 		Piece rook = new Rook(true, new Position(0, 0));
-		assertEquals(2, rook.getMoves(new Board(BoardUtil.createBoardWithPieces(rook, new Pawn(false, new Position(1, 0)), new Pawn(false, new Position(0, 1))), true)).size());
+		assertEquals(2, rook.getMoves(new Board(BoardUtil.createBoardWithPieces(rook, new Pawn(false, new Position(1, 0)), new Pawn(false, new Position(0, 1)), new King(true, new Position(7,7))), true)).size());
 	}
 	
 	@Test

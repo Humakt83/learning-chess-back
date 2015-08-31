@@ -53,13 +53,15 @@ public class PawnTest {
 	@Test
 	public void whitePawnCanDiagonallyAttack() {
 		Piece pawn = new Pawn(true, new Position(3, 5));
-		assertEquals(2, pawn.getMoves(new Board(BoardUtil.createBoardWithPieces(pawn, new Pawn(false, new Position(2, 4)), new Pawn(false, new Position(4, 4)), new Pawn(false, new Position(3, 4))), true)).size());
+		assertEquals(2, pawn.getMoves(new Board(BoardUtil.createBoardWithPieces(pawn, new Pawn(false, new Position(2, 4)), 
+				new Pawn(false, new Position(4, 4)), new Pawn(false, new Position(3, 4)), new King(true, new Position(7,7))), true)).size());
 	}
 	
 	@Test
 	public void blackPawnCanDiagonallyAttack() {
 		Piece pawn = new Pawn(false, new Position(3, 5));
-		assertEquals(1, pawn.getMoves(new Board(BoardUtil.createBoardWithPieces(pawn, new Pawn(false, new Position(2, 6)), new Pawn(true, new Position(4, 6)), new Pawn(true, new Position(3, 6))), true)).size());
+		assertEquals(1, pawn.getMoves(new Board(BoardUtil.createBoardWithPieces(pawn, new Pawn(false, new Position(2, 6)), new Pawn(true, new Position(4, 6)), new Pawn(true, new Position(3, 6)),
+				new King(false, new Position(0,0))), false)).size());
 	}
 	
 	@Test
@@ -68,7 +70,7 @@ public class PawnTest {
 		Piece pawnDoubleForward = new Pawn(false, new Position(0, 3));
 		Board board = new Board(BoardUtil.createBoardWithPieces(pawn, pawnDoubleForward), false);
 		Move previousMove = new MoveBuilder(new Position(0, 1), new Position(0, 3), pawnDoubleForward, board).setPawnDoubleForward(true).build();
-		board = new Board(BoardUtil.createBoardWithPieces(pawn, pawnDoubleForward), false, previousMove, new CastlingState());
+		board = new Board(BoardUtil.createBoardWithPieces(pawn, pawnDoubleForward, new King(true, new Position(7,7))), true, previousMove, new CastlingState());
 		assertEquals(2, pawn.getMoves(board).size());
 	}
 

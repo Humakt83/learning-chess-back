@@ -4,15 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import fi.ukkosnetti.chess.dto.Board;
 import fi.ukkosnetti.chess.dto.Move;
 import fi.ukkosnetti.chess.dto.Position;
 import fi.ukkosnetti.chess.logic.object.Piece;
+import fi.ukkosnetti.chess.logic.object.PieceFactory;
 
 public final class MoveUtil {
 
 	private final static int MIN_COORD = 0, MAX_COORD = 7;
+	
+	private static boolean MATE_CHECK_LOCK = false;
 	
 	public static List<Move> getDiagonalMoves(Board board, Piece piece) {
 		List<Move> moves = new ArrayList<>();
@@ -33,21 +37,52 @@ public final class MoveUtil {
 	}
 	
 	public static List<Board> filterAndTransformMoves(List<Move> moves) {
-		return moves.stream().filter(Objects::nonNull).filter(MoveUtil::isMoveOnBoard).filter(MoveUtil::filterMovesThatCollideWithOwnPiece).map(MoveUtil::transformMove).collect(Collectors.toList());
+		return moves.stream().filter(Objects::nonNull).filter(MoveUtil::isMoveOnBoard).filter(MoveUtil::filterMovesThatCollideWithOwnPiece).map(MoveUtil::transformMove).filter(MoveUtil::filterMovesThatCauseMate).collect(Collectors.toList());
+	}
+	
+	public static boolean isPositionInsideBoard(Position pos) {
+		return pos.x >= MIN_COORD && pos.x <= MAX_COORD && pos.y >= MIN_COORD && pos.y <= MAX_COORD;
+	}
+	
+	public static List<Piece> getPieces(Board board, boolean whitePieces) {
+		List<Piece> pieces = new ArrayList<>();
+		for (int y = 0; y < board.board.length ; y++) {
+			for (int x = 0; x < board.board[y].length; x++) {
+				Position position = new Position(x, y);
+				int slot = board.getSlot(position);
+				if ((whitePieces && slot > 0) || (!whitePieces && slot < 0)) {
+					pieces.add(PieceFactory.createPiece(slot, position));
+				}
+			}
+		}
+		return pieces;
 	}
 
 	private static boolean isMoveOnBoard(Move move) {
 		return isPositionInsideBoard(move.position);
-	}
-
-	public static boolean isPositionInsideBoard(Position pos) {
-		return pos.x >= MIN_COORD && pos.x <= MAX_COORD && pos.y >= MIN_COORD && pos.y <= MAX_COORD;
 	}
 	
 	private static boolean filterMovesThatCollideWithOwnPiece(Move move) {
 		boolean whitePiece = move.piece.whitePiece;
 		int slot = move.originalBoard.getSlot(move.position);
 		return (slot <= 0 && whitePiece) || (slot >= 0 && !whitePiece);
+	}
+	
+	private static boolean filterMovesThatCauseMate(final Board board) {
+		boolean noMate = true;
+		if (!MATE_CHECK_LOCK) {
+			final int kingToFind = board.turnOfWhite ? -6 : 6;
+			MATE_CHECK_LOCK = true;
+			noMate = !getPieces(board, board.turnOfWhite)
+				.stream()
+				.map(piece -> piece.getMoves(board))
+				.flatMap(l -> l.stream())
+				.filter(futureBoard -> Stream.of(futureBoard.board).flatMap(Stream::of).filter(i -> i == kingToFind).findFirst().orElse(null) == null)
+				.findFirst()
+				.isPresent();
+			MATE_CHECK_LOCK = false;
+		}
+		return noMate;
 	}
 
 	private static Board transformMove(Move move) {

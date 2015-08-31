@@ -27,7 +27,8 @@ public class QueenTest {
 	@Test
 	public void hasOnlyThreeMovesWhenBlockedByEnemiesInCorner() {
 		Piece queen = new Queen(true, new Position(0, 0));
-		assertEquals(3, queen.getMoves(new Board(BoardUtil.createBoardWithPieces(queen, new Pawn(false, new Position(1, 0)), new Pawn(false, new Position(0, 1)), new Pawn(false, new Position(1, 1))), true)).size());
+		assertEquals(3, queen.getMoves(new Board(BoardUtil.createBoardWithPieces(queen, new Pawn(false, new Position(1, 0)), new Pawn(false, new Position(0, 1)), new Pawn(false, new Position(1, 1)),
+				new King(true, new Position(7,7))), true)).size());
 	}
 	
 	@Test

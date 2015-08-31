@@ -6,8 +6,8 @@ import org.junit.Test;
 
 import fi.ukkosnetti.chess.dto.Board;
 import fi.ukkosnetti.chess.dto.CastlingState;
-import fi.ukkosnetti.chess.dto.Position;
 import fi.ukkosnetti.chess.dto.CastlingState.CastlingBlocker;
+import fi.ukkosnetti.chess.dto.Position;
 import fi.ukkosnetti.chess.test.util.BoardUtil;
 
 
@@ -34,7 +34,7 @@ public class KingTest {
 	@Test
 	public void blackKingCanCastleToLeft() {
 		Piece king = new King(false, new Position(4, 0));
-		assertEquals(6, king.getMoves(new Board(BoardUtil.createBoardWithPieces(king, new Rook(false, new Position(0, 0))), true)).size());
+		assertEquals(6, king.getMoves(new Board(BoardUtil.createBoardWithPieces(king, new Rook(false, new Position(0, 0))), false)).size());
 	}
 	
 	@Test
@@ -46,7 +46,7 @@ public class KingTest {
 	@Test
 	public void blackKingCanCastleToRight() {
 		Piece king = new King(false, new Position(4, 0));
-		assertEquals(6, king.getMoves(new Board(BoardUtil.createBoardWithPieces(king, new Rook(false, new Position(7, 0))), true)).size());
+		assertEquals(6, king.getMoves(new Board(BoardUtil.createBoardWithPieces(king, new Rook(false, new Position(7, 0))), false)).size());
 	}
 	
 	@Test
