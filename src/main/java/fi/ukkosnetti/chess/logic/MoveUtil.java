@@ -16,7 +16,7 @@ public final class MoveUtil {
 
 	private final static int MIN_COORD = 0, MAX_COORD = 7;
 	
-	private static boolean MATE_CHECK_LOCK = false;
+	private static Boolean MATE_CHECK_LOCK = false;
 	
 	public static List<Move> getDiagonalMoves(Board board, Piece piece) {
 		List<Move> moves = new ArrayList<>();
@@ -78,7 +78,7 @@ public final class MoveUtil {
 				.map(piece -> piece.getMoves(board))
 				.flatMap(l -> l.stream())
 				.filter(futureBoard -> Stream.of(futureBoard.board).flatMap(Stream::of).filter(i -> i == kingToFind).findFirst().orElse(null) == null)
-				.findFirst()
+				.findAny()
 				.isPresent();
 			MATE_CHECK_LOCK = false;
 		}
