@@ -37,7 +37,7 @@ public final class MoveUtil {
 	}
 	
 	public static List<Board> filterAndTransformMoves(List<Move> moves) {
-		return moves.stream().filter(Objects::nonNull).filter(MoveUtil::isMoveOnBoard).filter(MoveUtil::filterMovesThatCollideWithOwnPiece).map(MoveUtil::transformMove).filter(MoveUtil::filterMovesThatCauseMate).collect(Collectors.toList());
+		return moves.stream().filter(Objects::nonNull).filter(MoveUtil::isMoveOnBoard).filter(MoveUtil::moveDoesNotCollideWithOwnPiece).map(MoveUtil::transformMove).filter(MoveUtil::moveDoesNotCauseMate).collect(Collectors.toList());
 	}
 	
 	public static boolean isPositionInsideBoard(Position pos) {
@@ -62,13 +62,13 @@ public final class MoveUtil {
 		return isPositionInsideBoard(move.position);
 	}
 	
-	private static boolean filterMovesThatCollideWithOwnPiece(Move move) {
+	private static boolean moveDoesNotCollideWithOwnPiece(Move move) {
 		boolean whitePiece = move.piece.whitePiece;
 		int slot = move.originalBoard.getSlot(move.position);
 		return (slot <= 0 && whitePiece) || (slot >= 0 && !whitePiece);
 	}
 	
-	private static boolean filterMovesThatCauseMate(final Board board) {
+	private static boolean moveDoesNotCauseMate(final Board board) {
 		boolean noMate = true;
 		if (!MATE_CHECK_LOCK) {
 			final int kingToFind = board.turnOfWhite ? -6 : 6;
