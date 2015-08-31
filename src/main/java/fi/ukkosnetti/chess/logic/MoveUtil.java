@@ -77,7 +77,7 @@ public final class MoveUtil {
 				.stream()
 				.map(piece -> piece.getMoves(board))
 				.flatMap(l -> l.stream())
-				.filter(futureBoard -> Stream.of(futureBoard.board).flatMap(Stream::of).filter(i -> i == kingToFind).findFirst().orElse(null) == null)
+				.filter(futureBoard -> Stream.of(futureBoard.board).flatMap(Stream::of).filter(i -> i == kingToFind).findAny().orElse(null) == null)
 				.findAny()
 				.isPresent();
 			MATE_CHECK_LOCK = false;
