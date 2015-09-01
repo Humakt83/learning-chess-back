@@ -9,7 +9,7 @@ public class BoardEntity {
 	@Id
 	private String boardState;
 	
-	private Long value;
+	private Long value = 0l;
 	
 	public String getBoardState() {
 		return boardState;
