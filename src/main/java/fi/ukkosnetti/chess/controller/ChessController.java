@@ -1,4 +1,4 @@
-package fi.ukkosnetti.chess;
+package fi.ukkosnetti.chess.controller;
 
 import java.util.Arrays;
 

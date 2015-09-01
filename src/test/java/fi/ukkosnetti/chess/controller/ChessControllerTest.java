@@ -1,4 +1,4 @@
-package fi.ukkosnetti.chess;
+package fi.ukkosnetti.chess.controller;
 
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.when;
@@ -20,6 +20,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.jayway.restassured.RestAssured;
 
+import fi.ukkosnetti.chess.ChessApplication;
 import fi.ukkosnetti.chess.dto.Board;
 import fi.ukkosnetti.chess.test.util.BoardUtil;
 
