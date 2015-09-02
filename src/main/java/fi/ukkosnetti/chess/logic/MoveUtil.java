@@ -16,8 +16,6 @@ public final class MoveUtil {
 
 	private final static int MIN_COORD = 0, MAX_COORD = 7;
 	
-	private static Boolean MATE_CHECK_LOCK = false;
-	
 	public static List<Move> getDiagonalMoves(Board board, Piece piece) {
 		List<Move> moves = new ArrayList<>();
 		moves.addAll(getMovesUntilBlocked(board, 1, 1, piece));
@@ -70,9 +68,9 @@ public final class MoveUtil {
 	
 	private static boolean moveDoesNotCauseMate(final Board board) {
 		boolean noMate = true;
-		if (!MATE_CHECK_LOCK) {
+		if (!board.isDoNotCheckForMate()) {
 			final int kingToFind = board.turnOfWhite ? -6 : 6;
-			MATE_CHECK_LOCK = true;
+			board.setDoNotCheckForMate(true);
 			noMate = !getPieces(board, board.turnOfWhite)
 				.stream()
 				.map(piece -> piece.getMoves(board))
@@ -80,7 +78,6 @@ public final class MoveUtil {
 				.filter(futureBoard -> Stream.of(futureBoard.board).flatMap(Stream::of).filter(i -> i == kingToFind).findAny().orElse(null) == null)
 				.findAny()
 				.isPresent();
-			MATE_CHECK_LOCK = false;
 		}
 		return noMate;
 	}
@@ -91,6 +88,7 @@ public final class MoveUtil {
 		b[move.original.y][move.original.x] = 0;
 		Board board = new Board(b, !move.originalBoard.turnOfWhite, move, move.newCastlingState);
 		if (move.consumer != null) move.consumer.accept(board);
+		board.setDoNotCheckForMate(move.originalBoard.isDoNotCheckForMate());
 		return board;
 	}
 

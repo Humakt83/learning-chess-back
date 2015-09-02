@@ -2,6 +2,7 @@ package fi.ukkosnetti.chess.dto;
 
 import java.util.Arrays;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
@@ -14,6 +15,9 @@ public class Board {
 	public final Move lastMove;
 	
 	public final CastlingState castlingState;
+	
+	@JsonIgnore
+	private boolean doNotCheckForMate = false;
 
 	public Board(Integer[][] board, Boolean turnOfWhite, Move lastMove, CastlingState castlingState) {
 		this.board = board;
@@ -33,6 +37,14 @@ public class Board {
 	
 	public int getSlot(Position pos) {
 		return board[pos.y][pos.x];
+	}
+	
+	public boolean isDoNotCheckForMate() {
+		return doNotCheckForMate;
+	}
+	
+	public void setDoNotCheckForMate(boolean doNotCheckForMate) {
+		this.doNotCheckForMate = doNotCheckForMate;
 	}
 
 	@Override
