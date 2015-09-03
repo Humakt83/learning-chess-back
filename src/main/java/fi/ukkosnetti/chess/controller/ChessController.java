@@ -1,7 +1,5 @@
 package fi.ukkosnetti.chess.controller;
 
-import java.util.Arrays;
-
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +25,6 @@ public class ChessController {
 
 	@RequestMapping(value = "/aimove", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
 	public @ResponseBody Board getAIMove(@RequestBody Board board) {
-		Board newBoard = movePicker.getMove(board);
-		for (Integer[] row : newBoard.board) System.out.println(Arrays.toString(row));
-		return newBoard;
+		return movePicker.getMove(board);
 	}
 }

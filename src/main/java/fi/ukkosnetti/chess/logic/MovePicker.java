@@ -30,7 +30,6 @@ public class MovePicker {
 	private Board pickBestMoveForBlack(List<Board> moves) {
 		return moves.stream().map(board -> {
 			board.setValue(boardService.getBoardEntity(board.board).orElse(new BoardEntity()).getValue());
-			System.out.println(board.getValue());
 			return board;
 		}).min((b1, b2) -> b1.getValue().compareTo(b2.getValue())).orElse(pickRandomMove(moves));
 	}
