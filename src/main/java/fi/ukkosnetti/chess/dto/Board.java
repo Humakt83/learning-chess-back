@@ -18,6 +18,9 @@ public class Board {
 	
 	@JsonIgnore
 	private boolean doNotCheckForMate = false;
+	
+	@JsonIgnore
+	private Long value;
 
 	public Board(Integer[][] board, Boolean turnOfWhite, Move lastMove, CastlingState castlingState) {
 		this.board = board;
@@ -45,6 +48,14 @@ public class Board {
 	
 	public void setDoNotCheckForMate(boolean doNotCheckForMate) {
 		this.doNotCheckForMate = doNotCheckForMate;
+	}
+	
+	public Long getValue() {
+		return value;
+	}
+	
+	public void setValue(Long value) {
+		this.value = value;
 	}
 
 	@Override

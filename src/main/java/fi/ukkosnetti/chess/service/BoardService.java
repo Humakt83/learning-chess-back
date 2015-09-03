@@ -19,8 +19,8 @@ public class BoardService {
 	@Autowired
 	private BoardEntityRepository boardRepository;
 	
-	public BoardEntity getBoardEntity(Integer[][] board) {
-		return boardRepository.findOne(convertBoardToString(board));
+	public Optional<BoardEntity> getBoardEntity(Integer[][] board) {
+		return getBoardEntity(convertBoardToString(board));
 	}
 	
 	@Transactional
