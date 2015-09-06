@@ -24,7 +24,8 @@ public class MovePicker {
 	}
 	
 	private Board pickBestMove(List<Board> moves, boolean turnOfWhite) {
-		return turnOfWhite ? pickBestMoveForWhite(moves) : pickBestMoveForBlack(moves);
+		Board bestMove = turnOfWhite ? pickBestMoveForWhite(moves) : pickBestMoveForBlack(moves);
+		return bestMove.getValue() != 0 ? bestMove : pickRandomMove(moves);
 	}
 	
 	private Board pickBestMoveForBlack(List<Board> moves) {
@@ -32,7 +33,7 @@ public class MovePicker {
 			board.setValue(boardService.getBoardEntity(board.board).orElse(new BoardEntity()).getValue());
 			return board;
 		}).min((b1, b2) -> b1.getValue().compareTo(b2.getValue())).orElse(pickRandomMove(moves));
-	}
+	}	
 
 	private Board pickBestMoveForWhite(List<Board> moves) {
 		return moves.stream().map(board -> {
