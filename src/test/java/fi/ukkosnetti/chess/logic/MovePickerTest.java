@@ -189,6 +189,7 @@ public class MovePickerTest {
 				{ 0, 0, 0, 0, 0, 0, 0, 0 }
 		};
 		when(boardService.getBoardEntity(argThat(get2DArrayMatcher(worstBoard)))).thenReturn(createBoardEntity(-500l));
+		when(boardService.getBoardEntity(argThat(get2DArrayMatcher(bestBoard)))).thenReturn(createBoardEntity(500l));
 		assertArrayEquals(bestBoard, picker.getMove(new Board(previousBoard, true)).board);
 	}
 	
@@ -225,6 +226,7 @@ public class MovePickerTest {
 				{ 0, 0, 0, 0, 0, 0, 0, 0 }
 		};
 		when(boardService.getBoardEntity(argThat(get2DArrayMatcher(worstBoard)))).thenReturn(createBoardEntity(500l));
+		when(boardService.getBoardEntity(argThat(get2DArrayMatcher(bestBoard)))).thenReturn(createBoardEntity(-500l));
 		assertArrayEquals(bestBoard, picker.getMove(new Board(previousBoard, false)).board);
 	}
 	

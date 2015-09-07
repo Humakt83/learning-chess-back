@@ -54,7 +54,12 @@ public class Pawn extends Piece {
 				.filter(pos -> {
 					int slot = board.getSlot(pos);
 					return (slot < 0 && whitePiece) || (slot > 0 && !whitePiece);
-				}).map(pos -> new Move(position, pos, this, board)).collect(Collectors.toList());
+				}).map(pos -> {
+					if (pos.y == 0 || pos.y == 7) return getLevelUpMoves(board, pos);
+					return Arrays.asList(new Move(position, pos, this, board));
+				})
+				.flatMap(m -> m.stream())
+				.collect(Collectors.toList());
 	}
 	
 	private List<Move> getLevelUpMoves(final Board board, Position positionForward) {

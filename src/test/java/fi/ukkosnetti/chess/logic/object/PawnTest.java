@@ -73,5 +73,29 @@ public class PawnTest {
 		board = new Board(BoardUtil.createBoardWithPieces(pawn, pawnDoubleForward, new King(true, new Position(7,7))), true, previousMove, new CastlingState());
 		assertEquals(2, pawn.getMoves(board).size());
 	}
+	
+	@Test
+	public void hasLevelupMovesForWhitePawn() {
+		Piece pawn = new Pawn(true, new Position(0,1));
+		assertEquals(4, pawn.getMoves(new Board(BoardUtil.createBoardWithPieces(pawn), true)).size());
+	}
+	
+	@Test
+	public void hasLevelupMovesForBlackPawn() {
+		Piece pawn = new Pawn(false, new Position(0,6));
+		assertEquals(4, pawn.getMoves(new Board(BoardUtil.createBoardWithPieces(pawn), false)).size());
+	}
+	
+	@Test
+	public void diagonalAttackProvidesLevelupForWhite() {
+		Piece pawn = new Pawn(true, new Position(0,1));
+		assertEquals(4, pawn.getMoves(new Board(BoardUtil.createBoardWithPieces(pawn, new Knight(false, new Position(1, 0)), new Knight(false, new Position(0, 0)), new King(true, new Position(7,7))), true)).size());
+	}
+	
+	@Test
+	public void diagonalAttackProvidesLevelupForBlack() {
+		Piece pawn = new Pawn(false, new Position(0,6));
+		assertEquals(4, pawn.getMoves(new Board(BoardUtil.createBoardWithPieces(pawn, new Knight(true, new Position(1, 7)), new Knight(false, new Position(0, 7)), new King(false, new Position(7,7))), false)).size());
+	}
 
 }
