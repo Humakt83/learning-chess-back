@@ -19,7 +19,7 @@ public class GameOverController {
 	private BoardService boardService;
 	
 	@RequestMapping(value = "/gameover", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON)
-	public @ResponseBody void getAIMove(@RequestBody GameResult gameResult) {
+	public @ResponseBody void gameOver(@RequestBody GameResult gameResult) {
 		boardService.saveGameResult(gameResult);		
 	}
 }
