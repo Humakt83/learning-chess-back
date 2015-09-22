@@ -7,7 +7,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Spring Boot Blank Project (from https://github.com/making/spring-boot-blank)</name>
+    <name>Learning Chess</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -17,7 +17,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <start-class>fi.ukkosnetti.learning_chess_back.App</start-class>
+        <start-class>fi.ukkosnetti.chess.ChessApplication</start-class>
         <java.version>1.8</java.version>
         <lombok.version>1.14.8</lombok.version>
         <log4jdbc.log4j2.version>1.16</log4jdbc.log4j2.version>
