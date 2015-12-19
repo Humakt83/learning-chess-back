@@ -13,7 +13,7 @@ import fi.ukkosnetti.chess.logic.MoveUtil;
 public class Rook extends Piece {
 
 	public Rook(boolean whitePiece, Position position) {
-		super(whitePiece, position, 4);
+		super(whitePiece, position, 4, 125);
 	}
 
 	@Override

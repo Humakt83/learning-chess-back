@@ -11,12 +11,15 @@ public abstract class Piece implements Movable {
 
 	private final int pieceValue;
 	
+	private final int evaluationValue;
+	
 	public final Position position;
 
-	Piece(boolean whitePiece, Position position, int piece) {
+	Piece(boolean whitePiece, Position position, int piece, int evaluationValue) {
 		this.whitePiece = whitePiece;
 		this.pieceValue = piece;
 		this.position = position;
+		this.evaluationValue = evaluationValue;
 	}
 
 	public int getSign() {
@@ -25,6 +28,10 @@ public abstract class Piece implements Movable {
 	
 	public int getPieceValue() {
 		return pieceValue * getSign();
+	}
+	
+	public int getEvaluationValue() {
+		return evaluationValue * getSign();
 	}
 	
 	@Override

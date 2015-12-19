@@ -16,7 +16,7 @@ import fi.ukkosnetti.chess.logic.MoveUtil;
 public class King extends Piece {
 
 	public King(boolean whitePiece, Position position) {
-		super(whitePiece, position, 6);
+		super(whitePiece, position, 6, 5000);
 	}
 
 	@Override

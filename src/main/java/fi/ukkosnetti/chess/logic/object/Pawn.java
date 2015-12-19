@@ -15,7 +15,7 @@ import fi.ukkosnetti.chess.logic.MoveUtil;
 public class Pawn extends Piece {
 
 	public Pawn(boolean whitePiece, Position position) {
-		super(whitePiece, position, 1);
+		super(whitePiece, position, 1, 50);
 	}
 
 	@Override

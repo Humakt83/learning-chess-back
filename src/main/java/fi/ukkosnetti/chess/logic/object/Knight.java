@@ -12,7 +12,7 @@ import fi.ukkosnetti.chess.logic.MoveUtil;
 public class Knight extends Piece {
 
 	public Knight(boolean whitePiece, Position position) {
-		super(whitePiece, position, 2);
+		super(whitePiece, position, 2, 95);
 	}
 
 	@Override

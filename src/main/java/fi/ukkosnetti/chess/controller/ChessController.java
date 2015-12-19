@@ -29,6 +29,7 @@ public class ChessController {
 	public @ResponseBody Board getAIMove(@RequestBody Board board) {
 		Board newBoard = movePicker.getMove(board);
 		if (newBoard == null) throw new ResourceNotFoundException("No legal moves left");
+		System.out.println(newBoard.getEvaluatedValue());
 		return newBoard;		
 	}
 		

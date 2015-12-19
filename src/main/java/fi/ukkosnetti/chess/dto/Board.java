@@ -21,6 +21,9 @@ public class Board {
 	
 	@JsonIgnore
 	private Long value;
+	
+	@JsonIgnore
+	private Long evaluatedValue;
 
 	public Board(Integer[][] board, Boolean turnOfWhite, Move lastMove, CastlingState castlingState) {
 		this.board = board;
@@ -56,6 +59,14 @@ public class Board {
 	
 	public void setValue(Long value) {
 		this.value = value;
+	}
+	
+	public Long getEvaluatedValue() {
+		return evaluatedValue;
+	}
+	
+	public void setEvaluatedValue(Long evaluatedValue) {
+		this.evaluatedValue = evaluatedValue;
 	}
 
 	@Override

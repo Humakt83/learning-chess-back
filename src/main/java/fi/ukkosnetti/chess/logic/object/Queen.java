@@ -10,7 +10,7 @@ import fi.ukkosnetti.chess.logic.MoveUtil;
 public class Queen extends Piece {
 
 	public Queen(boolean whitePiece, Position position) {
-		super(whitePiece, position, 5);
+		super(whitePiece, position, 5, 240);
 	}
 
 	@Override

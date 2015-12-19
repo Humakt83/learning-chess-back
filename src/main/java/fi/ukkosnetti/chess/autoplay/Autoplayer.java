@@ -32,7 +32,7 @@ public class Autoplayer {
 	
 	@PostConstruct
 	public void startAutoplay() {
-		Executors.newFixedThreadPool(1).execute(this::autoPlay);
+		//Executors.newFixedThreadPool(1).execute(this::autoPlay);
 	}
 	
 	private void autoPlay() {

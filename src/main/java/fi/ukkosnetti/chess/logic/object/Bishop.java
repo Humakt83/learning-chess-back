@@ -9,7 +9,7 @@ import fi.ukkosnetti.chess.logic.MoveUtil;
 public class Bishop extends Piece {
 
 	public Bishop(boolean whitePiece, Position position) {
-		super(whitePiece, position, 3);
+		super(whitePiece, position, 3, 95);
 	}
 
 	@Override
