@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,20 +31,26 @@ public class MovePicker {
 	}
 
 	private Board pickBestMoveForBlack(final List<Board> moves) {
-		Optional<Board> bestMove =  moves.stream().map(board -> {
+		Long bestValue =  moves.stream().map(board -> {
 			board.setValue(boardService.getBoardEntity(board.board).orElse(new BoardEntity()).getValue());
 			return board;
-		}).min(compareBoards());
-		return bestMove.isPresent() && bestMove.get().getValue() < 0 ? bestMove.get() : pickEvaluatedMoveForBlack(moves);
+		}).min(compareBoards()).get().getValue();
+		return pickBestValueMove(bestValue, moves, this::pickEvaluatedMoveForBlack);
 	}
 
-
 	private Board pickBestMoveForWhite(final List<Board> moves) {
-		Optional<Board> bestMove =  moves.stream().map(board -> {
+		Long bestValue =  moves.stream().map(board -> {
 			board.setValue(boardService.getBoardEntity(board.board).orElse(new BoardEntity()).getValue());
 			return board;
-		}).max(compareBoards());
-		return bestMove.isPresent() && bestMove.get().getValue() > 0 ? bestMove.get() : pickEvaluatedMoveForWhite(moves);
+		}).max(compareBoards()).get().getValue();
+		return pickBestValueMove(bestValue, moves, this::pickEvaluatedMoveForWhite);
+	}
+	
+	private Board pickBestValueMove(final Long bestValue, List<Board> moves, Function<List<Board>, Board> picker) {
+		List<Board> bestMoves = moves.stream()
+				.filter(board -> board.getValue().equals(bestValue))
+				.collect(Collectors.toList());
+		return picker.apply(bestMoves);
 	}
 
 	private Board pickEvaluatedMoveForBlack(final List<Board> moves) {
