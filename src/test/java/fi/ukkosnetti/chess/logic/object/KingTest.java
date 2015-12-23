@@ -65,4 +65,20 @@ public class KingTest {
 		assertEquals(5, king.getMoves(new Board(BoardUtil.createBoardWithPieces(king, new Rook(true, new Position(0, 7))), true, null, state)).size());
 	}
 	
+	@Test
+	public void cannotCastleWhenSomethingIsBetweenKingAndRook() {
+		Piece king = new King(true, new Position(4, 7));
+		assertEquals(5, king.getMoves(new Board(BoardUtil.createBoardWithPieces(king, new Rook(true, new Position(7, 7)), new Knight(true, new Position(6,7))), true)).size());
+		assertEquals(4, king.getMoves(new Board(BoardUtil.createBoardWithPieces(king, new Rook(true, new Position(7, 7)), new Bishop(true, new Position(5,7))), true)).size());
+		assertEquals(5, king.getMoves(new Board(BoardUtil.createBoardWithPieces(king, new Rook(true, new Position(0, 7)), new Bishop(true, new Position(2,7))), true)).size());
+		assertEquals(5, king.getMoves(new Board(BoardUtil.createBoardWithPieces(king, new Rook(true, new Position(0, 7)), new Knight(true, new Position(1,7))), true)).size());
+		assertEquals(4, king.getMoves(new Board(BoardUtil.createBoardWithPieces(king, new Rook(true, new Position(0, 7)), new Queen(true, new Position(3,7))), true)).size());
+	}
+	
+	@Test
+	public void cannotCastleWhenLineIsThreatened() {
+		Piece king = new King(true, new Position(4, 7));
+		assertEquals(3, king.getMoves(new Board(BoardUtil.createBoardWithPieces(king, new Rook(true, new Position(7, 7)), new Rook(false, new Position(5, 0))), true)).size());
+	}
+	
 }

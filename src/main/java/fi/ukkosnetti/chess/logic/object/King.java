@@ -27,7 +27,6 @@ public class King extends Piece {
 	}
 
 	private List<Move> getCastlingMoves(Board board) {
-		//TODO: Check for check when castling
 		List<Move> castlingMoves = new ArrayList<>();
 		if (leftCastlingMoveIsPossible(board)) {
 			castlingMoves.add(new MoveBuilder(position, position.newPosition(-2, 0), this, board)
@@ -61,7 +60,8 @@ public class King extends Piece {
 	private boolean leftCastlingMoveIsPossible(Board board) {
 		List<CastlingBlocker> blockers = board.castlingState.blockers;
 		Position rookPosition = position.newPosition(-4, 0);
-		if (!MoveUtil.isPositionInsideBoard(rookPosition)) return false; 
+		if (!MoveUtil.isPositionInsideBoard(rookPosition)  || board.getSlot(position.newPosition(-1, 0)) != 0 
+				|| board.getSlot(position.newPosition(-2,  0)) != 0 || board.getSlot(position.newPosition(-3,  0)) != 0) return false; 
 		int rookSlot = board.getSlot(rookPosition);
 		if (whitePiece) return !blockers.contains(CastlingBlocker.WHITE_KING_MOVED) && !blockers.contains(CastlingBlocker.WHITE_LEFT_ROOK_MOVED) && rookSlot == 4; 
 		return !blockers.contains(CastlingBlocker.BLACK_KING_MOVED) && !blockers.contains(CastlingBlocker.BLACK_LEFT_ROOK_MOVED) && rookSlot == -4; 
@@ -70,7 +70,7 @@ public class King extends Piece {
 	private boolean rightCastlingMoveIsPossible(Board board) {
 		List<CastlingBlocker> blockers = board.castlingState.blockers;
 		Position rookPosition = position.newPosition(3, 0);
-		if (!MoveUtil.isPositionInsideBoard(rookPosition)) return false; 
+		if (!MoveUtil.isPositionInsideBoard(rookPosition) || board.getSlot(position.newPosition(1, 0)) != 0 || board.getSlot(position.newPosition(2,  0)) != 0) return false; 
 		int rookSlot = board.getSlot(rookPosition);
 		if (whitePiece) return !blockers.contains(CastlingBlocker.WHITE_KING_MOVED) && !blockers.contains(CastlingBlocker.WHITE_RIGHT_ROOK_MOVED) && rookSlot == 4; 
 		return !blockers.contains(CastlingBlocker.BLACK_KING_MOVED) && !blockers.contains(CastlingBlocker.BLACK_RIGHT_ROOK_MOVED) && rookSlot == -4; 
