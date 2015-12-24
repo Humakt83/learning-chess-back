@@ -28,19 +28,37 @@ public class King extends Piece {
 
 	private List<Move> getCastlingMoves(Board board) {
 		List<Move> castlingMoves = new ArrayList<>();
-		if (leftCastlingMoveIsPossible(board)) {
+		if (leftCastlingMoveIsPossible(board) && !leftCastlingMoveCausesMate(board)) {
 			castlingMoves.add(new MoveBuilder(position, position.newPosition(-2, 0), this, board)
 				.addCastlingBlocker(whitePiece ? CastlingBlocker.WHITE_KING_MOVED : CastlingBlocker.BLACK_KING_MOVED)
 				.setConsumer(getLeftRookMover())
 				.build());
 		}
-		if (rightCastlingMoveIsPossible(board)) {
+		if (rightCastlingMoveIsPossible(board) && !rightCastlingMoveCausesMate(board)) {
 			castlingMoves.add(new MoveBuilder(position, position.newPosition(2, 0), this, board)
 				.addCastlingBlocker(whitePiece ? CastlingBlocker.WHITE_KING_MOVED : CastlingBlocker.BLACK_KING_MOVED)
 				.setConsumer(getRightRookMover())
 				.build());
 		}
 		return castlingMoves;
+	}
+
+	private boolean leftCastlingMoveCausesMate(Board board) {
+		return castlingMoveCausesMate(Arrays.asList(new MoveBuilder(position, position.newPosition(-1, 0), this, board).build(),
+				new MoveBuilder(position, position.newPosition(-2, 0), this, board).build(),
+				new MoveBuilder(position, position.newPosition(-3, 0), this, board).build()));
+	}
+	
+	private boolean rightCastlingMoveCausesMate(Board board) {
+		return castlingMoveCausesMate(Arrays.asList(new MoveBuilder(position, position.newPosition(1, 0), this, board).build(),
+				new MoveBuilder(position, position.newPosition(2, 0), this, board).build()));
+	}
+
+	private boolean castlingMoveCausesMate(List<Move> spotsToCheck) {
+		return spotsToCheck.stream()
+			.map(move -> MoveUtil.transformMove(move))
+			.filter(boardOfMove -> !MoveUtil.moveDoesNotCauseMate(boardOfMove))
+			.findAny().isPresent();
 	}
 
 	private Consumer<Board> getLeftRookMover() {

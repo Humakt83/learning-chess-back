@@ -55,18 +55,8 @@ public final class MoveUtil {
 		}
 		return pieces;
 	}
-
-	private static boolean isMoveOnBoard(Move move) {
-		return isPositionInsideBoard(move.position);
-	}
 	
-	private static boolean moveDoesNotCollideWithOwnPiece(Move move) {
-		boolean whitePiece = move.piece.whitePiece;
-		int slot = move.originalBoard.getSlot(move.position);
-		return (slot <= 0 && whitePiece) || (slot >= 0 && !whitePiece);
-	}
-	
-	private static boolean moveDoesNotCauseMate(final Board board) {
+	public static boolean moveDoesNotCauseMate(final Board board) {
 		boolean noMate = true;
 		if (!board.isDoNotCheckForMate()) {
 			final int kingToFind = board.turnOfWhite ? -6 : 6;
@@ -82,7 +72,7 @@ public final class MoveUtil {
 		return noMate;
 	}
 
-	private static Board transformMove(Move move) {
+	public static Board transformMove(Move move) {
 		Integer[][] b = copyBoard(move.originalBoard.board);
 		b[move.position.y][move.position.x] = move.piece.getPieceValue();
 		b[move.original.y][move.original.x] = 0;
@@ -90,6 +80,16 @@ public final class MoveUtil {
 		if (move.consumer != null) move.consumer.accept(board);
 		board.setDoNotCheckForMate(move.originalBoard.isDoNotCheckForMate());
 		return board;
+	}
+
+	private static boolean isMoveOnBoard(Move move) {
+		return isPositionInsideBoard(move.position);
+	}
+	
+	private static boolean moveDoesNotCollideWithOwnPiece(Move move) {
+		boolean whitePiece = move.piece.whitePiece;
+		int slot = move.originalBoard.getSlot(move.position);
+		return (slot <= 0 && whitePiece) || (slot >= 0 && !whitePiece);
 	}
 
 	private static Integer[][] copyBoard(Integer[][] board) {

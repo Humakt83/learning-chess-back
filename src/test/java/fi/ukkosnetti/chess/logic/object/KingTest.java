@@ -79,6 +79,10 @@ public class KingTest {
 	public void cannotCastleWhenLineIsThreatened() {
 		Piece king = new King(true, new Position(4, 7));
 		assertEquals(3, king.getMoves(new Board(BoardUtil.createBoardWithPieces(king, new Rook(true, new Position(7, 7)), new Rook(false, new Position(5, 0))), true)).size());
+		assertEquals(5, king.getMoves(new Board(BoardUtil.createBoardWithPieces(king, new Rook(true, new Position(7, 7)), new Rook(false, new Position(6, 0))), true)).size());
+		assertEquals(3, king.getMoves(new Board(BoardUtil.createBoardWithPieces(king, new Rook(true, new Position(0, 7)), new Rook(false, new Position(3, 0))), true)).size());
+		assertEquals(5, king.getMoves(new Board(BoardUtil.createBoardWithPieces(king, new Rook(true, new Position(0, 7)), new Rook(false, new Position(2, 0))), true)).size());
+		assertEquals(5, king.getMoves(new Board(BoardUtil.createBoardWithPieces(king, new Rook(true, new Position(0, 7)), new Rook(false, new Position(1, 0))), true)).size());
 	}
 	
 }
