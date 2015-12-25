@@ -10,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import fi.ukkosnetti.chess.dto.Board;
-import fi.ukkosnetti.chess.logic.object.Piece;
+import fi.ukkosnetti.chess.rules.MoveUtil;
+import fi.ukkosnetti.chess.rules.piece.Piece;
 import fi.ukkosnetti.chess.model.BoardEntity;
 import fi.ukkosnetti.chess.service.BoardService;
 

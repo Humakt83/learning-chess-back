@@ -14,7 +14,7 @@ import fi.ukkosnetti.chess.controller.GameOverController;
 import fi.ukkosnetti.chess.dto.Board;
 import fi.ukkosnetti.chess.dto.GameResult;
 import fi.ukkosnetti.chess.logic.MovePicker;
-import fi.ukkosnetti.chess.logic.MoveUtil;
+import fi.ukkosnetti.chess.rules.MoveUtil;
 
 @Component
 public class Autoplayer {

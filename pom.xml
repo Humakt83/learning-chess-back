@@ -19,12 +19,16 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <start-class>fi.ukkosnetti.chess.ChessApplication</start-class>
         <java.version>1.8</java.version>
-        <lombok.version>1.14.8</lombok.version>
         <log4jdbc.log4j2.version>1.16</log4jdbc.log4j2.version>
         <rest.assured.version>2.3.3</rest.assured.version>
     </properties>
 
     <dependencies>
+    	<dependency>
+    		<groupId>fi.ukkosnetti</groupId>
+    		<artifactId>lchessrulz</artifactId>
+    		<version>1.0.0</version>
+    	</dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -36,12 +40,6 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.bgee.log4jdbc-log4j2</groupId>

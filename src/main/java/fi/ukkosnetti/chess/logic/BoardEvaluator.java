@@ -3,7 +3,8 @@ package fi.ukkosnetti.chess.logic;
 import java.util.stream.Stream;
 
 import fi.ukkosnetti.chess.dto.Board;
-import fi.ukkosnetti.chess.logic.object.Piece;
+import fi.ukkosnetti.chess.rules.MoveUtil;
+import fi.ukkosnetti.chess.rules.piece.Piece;
 
 public final class BoardEvaluator {
 	
