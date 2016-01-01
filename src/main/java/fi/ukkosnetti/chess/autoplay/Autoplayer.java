@@ -7,6 +7,7 @@ import java.util.concurrent.Executors;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import fi.ukkosnetti.chess.controller.ChessController;
@@ -20,6 +21,9 @@ import fi.ukkosnetti.chess.rules.MoveUtil;
 public class Autoplayer {
 	
 	private static final int MAX_TURNS = 300;
+	
+	@Value("${chess.disableAutoplay:false}")
+	private boolean autoplayDisabled = false;
 
 	@Autowired
 	private ChessController controller;
@@ -32,7 +36,9 @@ public class Autoplayer {
 	
 	@PostConstruct
 	public void startAutoplay() {
-		Executors.newFixedThreadPool(1).execute(this::autoPlay);
+		if (!autoplayDisabled) {
+			Executors.newFixedThreadPool(1).execute(this::autoPlay);
+		}
 	}
 	
 	private void autoPlay() {
