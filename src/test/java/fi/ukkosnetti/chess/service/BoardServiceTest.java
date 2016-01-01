@@ -15,7 +15,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import fi.ukkosnetti.chess.dto.GameResult;
 import fi.ukkosnetti.chess.model.BoardEntity;
 import fi.ukkosnetti.chess.repository.BoardEntityRepository;
-import fi.ukkosnetti.chess.test.util.BoardUtil;
+import fi.ukkosnetti.chess.test.util.BoardTestUtil;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BoardServiceTest {
@@ -28,13 +28,13 @@ public class BoardServiceTest {
 	
 	@Test
 	public void getsBoardEntity() {
-		service.getBoardEntity(BoardUtil.createStartingBoard());
+		service.getBoardEntity(BoardTestUtil.createStartingBoard());
 		verify(repository).findOne("-4-2-3-5-6-3-2-4-1-1-1-1-1-1-1-1000000000000000000000000000000001111111142356324");
 	}
 	
 	@Test
 	public void savesGameResult() {
-		service.saveGameResult(new GameResult(Arrays.asList(BoardUtil.createStartingBoard(), BoardUtil.createEmptyBoard()), true));
+		service.saveGameResult(new GameResult(Arrays.asList(BoardTestUtil.createStartingBoard(), BoardTestUtil.createEmptyBoard()), true));
 		verify(repository, times(2)).save(isA(BoardEntity.class));
 	}
 }

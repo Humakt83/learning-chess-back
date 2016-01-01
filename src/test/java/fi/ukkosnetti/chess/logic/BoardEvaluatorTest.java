@@ -6,13 +6,13 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import fi.ukkosnetti.chess.dto.Board;
-import fi.ukkosnetti.chess.test.util.BoardUtil;
+import fi.ukkosnetti.chess.test.util.BoardTestUtil;
 
 public class BoardEvaluatorTest {
 
 	@Test
 	public void boardScoreIsEven() {
-		Board board = givenBoard(BoardUtil.createStartingBoard());
+		Board board = givenBoard(BoardTestUtil.createStartingBoard());
 		BoardEvaluator.evaluateBoard(board);
 		assertEquals(0, board.getEvaluatedValue().longValue());		
 	}

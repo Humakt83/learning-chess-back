@@ -25,7 +25,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import fi.ukkosnetti.chess.dto.Board;
 import fi.ukkosnetti.chess.model.BoardEntity;
 import fi.ukkosnetti.chess.service.BoardService;
-import fi.ukkosnetti.chess.test.util.BoardUtil;
+import fi.ukkosnetti.chess.test.util.BoardTestUtil;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MovePickerTest {
@@ -36,7 +36,7 @@ public class MovePickerTest {
 	@InjectMocks
 	private MovePicker picker;
 	
-	private final static Integer[][] STARTING_BOARD = BoardUtil.createStartingBoard();
+	private final static Integer[][] STARTING_BOARD = BoardTestUtil.createStartingBoard();
 	
 	@Before
 	public void init() {

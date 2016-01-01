@@ -19,7 +19,7 @@ import com.jayway.restassured.RestAssured;
 
 import fi.ukkosnetti.chess.ChessApplication;
 import fi.ukkosnetti.chess.dto.GameResult;
-import fi.ukkosnetti.chess.test.util.BoardUtil;
+import fi.ukkosnetti.chess.test.util.BoardTestUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ChessApplication.class)
@@ -39,7 +39,7 @@ public class GameOverControllerTest {
 	@Test
 	public void acceptsWhiteWin() {
 		given().contentType(MediaType.APPLICATION_JSON)
-			.body(new GameResult(Arrays.asList(BoardUtil.createStartingBoard(), BoardUtil.createEmptyBoard()), true))
+			.body(new GameResult(Arrays.asList(BoardTestUtil.createStartingBoard(), BoardTestUtil.createEmptyBoard()), true))
 			.post("/gameover")
 			.then()
 			.statusCode(200);
@@ -48,7 +48,7 @@ public class GameOverControllerTest {
 	@Test
 	public void acceptsBlackWin() {
 		given().contentType(MediaType.APPLICATION_JSON)
-		.body(new GameResult(Arrays.asList(BoardUtil.createStartingBoard(), BoardUtil.createEmptyBoard()), false))
+		.body(new GameResult(Arrays.asList(BoardTestUtil.createStartingBoard(), BoardTestUtil.createEmptyBoard()), false))
 		.post("/gameover")
 		.then()
 		.statusCode(200);

@@ -4,16 +4,15 @@ import java.util.stream.Stream;
 
 import fi.ukkosnetti.chess.dto.Board;
 import fi.ukkosnetti.chess.rules.MoveUtil;
-import fi.ukkosnetti.chess.rules.piece.Piece;
 
 public final class BoardEvaluator {
 	
 	private BoardEvaluator() {}
 	
-	public static Board evaluateBoard(Board board) {
+	public static Board evaluateBoard(final Board board) {
 		board.setEvaluatedValue(Stream.concat(MoveUtil.getPieces(board, true).stream(), MoveUtil.getPieces(board, false)
 				.stream())
-				.mapToLong(Piece::getEvaluationValue)
+				.mapToLong(piece -> piece.getEvaluationValue(board))
 				.sum());		
 		return board;
 	}
