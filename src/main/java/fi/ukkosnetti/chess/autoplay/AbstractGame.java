@@ -8,6 +8,7 @@ import fi.ukkosnetti.chess.dto.Board;
 import fi.ukkosnetti.chess.dto.GameResult;
 import fi.ukkosnetti.chess.logic.MovePicker;
 import fi.ukkosnetti.chess.rules.MoveUtil;
+import fi.ukkosnetti.chess.test.util.BoardTestUtil;
 
 public abstract class AbstractGame implements AutoGame {
 	
@@ -42,7 +43,7 @@ public abstract class AbstractGame implements AutoGame {
 		boolean opponentIsBlack = gameCounter % 2 == 0;
 		System.out.println("GAME ("+ gameCounter + ") STARTED OPPONENT IS BLACK=" + opponentIsBlack);
 		List<Integer[][]> madeMoves = new ArrayList<>();
-		Board board = new Board(createStartingBoard(), true);
+		Board board = new Board(BoardTestUtil.createStartingBoard(), true);
 		do {
 			board = doMove(board, opponentIsBlack);
 			board.setDoNotCheckForMate(false);
@@ -69,19 +70,6 @@ public abstract class AbstractGame implements AutoGame {
 				.filter(piece -> piece.canEatKing(board))
 				.findAny()
 				.isPresent();
-	}
-
-	private static Integer[][] createStartingBoard() {
-		return new Integer[][] {
-				{ -4, -2, -3, -5, -6, -3, -2, -4 },
-				{ -1, -1, -1, -1, -1, -1, -1, -1 },
-				{ 0, 0, 0, 0, 0, 0, 0, 0 },
-				{ 0, 0, 0, 0, 0, 0, 0, 0 },
-				{ 0, 0, 0, 0, 0, 0, 0, 0 },
-				{ 0, 0, 0, 0, 0, 0, 0, 0 },
-				{ 1, 1, 1, 1, 1, 1, 1, 1 },
-				{ 4, 2, 3, 5, 6, 3, 2, 4 }
-		};
 	}
 
 }
