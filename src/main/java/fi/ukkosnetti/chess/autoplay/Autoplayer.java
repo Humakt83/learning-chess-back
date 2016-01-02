@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import fi.ukkosnetti.chess.controller.ChessController;
 import fi.ukkosnetti.chess.controller.GameOverController;
@@ -24,6 +25,12 @@ public class Autoplayer {
 	
 	@Value("${chess.disableAutoplay:false}")
 	private boolean autoplayDisabled = false;
+	
+	@Value("${chess.sparring.enabled:false}")
+	private boolean sparringOpponentEnabled = false;
+	
+	@Value("${chess.sparring.address:}")
+	private String sparringAddress;
 
 	@Autowired
 	private ChessController controller;
@@ -34,10 +41,16 @@ public class Autoplayer {
 	@Autowired
 	private MovePicker picker;
 	
+	private RestTemplate template = new RestTemplate();
+	
 	@PostConstruct
 	public void startAutoplay() {
 		if (!autoplayDisabled) {
-			Executors.newFixedThreadPool(1).execute(this::autoPlay);
+			if (sparringOpponentEnabled) {
+				Executors.newFixedThreadPool(1).execute(this::sparringAutoPlay);
+			} else {
+				Executors.newFixedThreadPool(1).execute(this::autoPlay);
+			}
 		}
 	}
 	
@@ -53,6 +66,41 @@ public class Autoplayer {
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+		}
+	}
+
+	private void sparringAutoPlay() {
+		int gameCounter = 0;
+		try {
+			while (true) {
+				System.out.println("STARTING NEW SPARRING GAME-------------------------------------------------------");
+				playSparringGame(gameCounter % 2 == 0, gameCounter);
+				gameCounter++;
+				System.out.println("GAME OVER--------------------------------------------------------GAMES PLAYED: " + gameCounter);
+				Thread.sleep(10);
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void playSparringGame(boolean sparringIsBlack, int gameCounter) {
+		List<Integer[][]> madeMoves = new ArrayList<>();
+		Board board = new Board(createStartingBoard(), true);
+		do {
+			if ((madeMoves.size() % 2 == 0 && sparringIsBlack) || (madeMoves.size() % 2 != 0 && !sparringIsBlack)) {
+				board = controller.getAIMove(board);
+			} else {
+				board = template.postForObject(sparringAddress, board, Board.class);
+			}
+			board.setDoNotCheckForMate(false);
+			madeMoves.add(board.board);
+		} while (madeMoves.size() < MAX_TURNS && !isGameOver(board));
+		if (madeMoves.size() < MAX_TURNS && didGameEndOnCheckMate(board)) {
+			gameOverController.gameOver(new GameResult(madeMoves, !board.turnOfWhite));
+		} else {
+			System.out.println("DID NOT LOSE GAME + " + gameCounter + " AGAINST SPARRING OPPONENT");
+			Thread.yield();
 		}
 	}
 

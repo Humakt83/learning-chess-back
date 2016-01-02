@@ -1,2 +1,5 @@
 chess:
   disableAutoplay: false
+  sparring:
+    enabled: true
+    address: "http://localhost:8089/aimove"
