@@ -3,3 +3,15 @@ chess:
   sparring:
     enabled: true
     address: "http://localhost:8089/aimove"
+spring:
+  database:
+    driverClassName: org.postgresql.Driver
+  datasource:
+    url: jdbc:postgresql://localhost:5432/learning-chess
+    username: postgres
+    password: postgres
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+      dialect: postgres
