@@ -13,7 +13,12 @@ Checkout this repository and then run `mvn clean install` to install it.
 
 Create a learning-chess database on your PostgreSQL server.
 
-Import a project into eclipse as maven project. And then locate ChessApplication and run it as a Java Application.
+To run the project from Eclipse:
+1. Import the project into eclipse as maven project
+2. Locate ChessApplication and run it as a Java Application.
+
+From the command line use:
+`java -jar target/learning-chess-back-0.0.1-SNAPSHOT.jar`
 
 ##Description
 
