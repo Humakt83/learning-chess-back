@@ -2,9 +2,9 @@
 Backend side of the learning chess application
 
 ##Requirements
-Java 8
-[Maven](https://maven.apache.org/)
-[PostgreSQL](http://www.postgresql.org/) as database
+* Java 8
+* [Maven](https://maven.apache.org/)
+* [PostgreSQL](http://www.postgresql.org/) as database
 
 ##Installing and running
 You need [lchessrulz](https://github.com/Humakt83/lchessrulz) installed on your local maven repository (it is not part of maven central repository)
