@@ -6,7 +6,7 @@ Backend side of the learning chess application
 * [Maven](https://maven.apache.org/)
 * [PostgreSQL](http://www.postgresql.org/) as database
 
-##Installing and running
+## Installing and running
 You need [lchessrulz](https://github.com/Humakt83/lchessrulz) installed on your local maven repository (it is not part of maven central repository)
 
 Checkout this repository and then run `mvn clean install` to install it.
